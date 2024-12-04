@@ -1,124 +1,150 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: 'SAM Template for ServerlessMicroserviceApp'
-
+Description: 'SAM Template for ServerlessStockServiceApp'
 
 # ======================== GLOBAL ======================== #
 Globals:
   Function:
     Runtime: python3.8
     Handler: app.lambda_handler
-    Timeout: 60 # default is 3 seconds the function can run before it is stopped
+    Timeout: 60  # Default is 3 seconds; adjusted to 60 seconds
     Environment:
       Variables:
-        TABLE_NAME: !Ref MoviesTable
+        TABLE_NAME: !Ref StocksTable
 
 # ======================== RESOURCES ======================== #
 Resources:
-  
-  MoviesApi: 
+
+  StocksApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      # DefinitionUri: ./swagger.json
-  
-  CreateMovieFunction:
+      # DefinitionUri: ./swagger.json (if using OpenAPI definition)
+
+  CreateStockFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: 'CreateMovieFunction'
+      FunctionName: 'CreateStockFunction'
       CodeUri: create_stock/
-      Policies: # follow the principle of least privilege
-        - DynamoDBCrudPolicy: # AWS SAM policy
-            TableName: !Ref MoviesTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref StocksTable
         - AWSLambdaBasicExecutionRole
       Events:
-        CreateMovieApi:
+        CreateStockApi:
           Type: Api
           Properties:
-            RestApiId: !Ref MoviesApi
-            Path: /movie
+            RestApiId: !Ref StocksApi
+            Path: /stock
             Method: post
-  
-  GetMovieFunction:
+
+  GetStockFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: 'GetMovieFunction'
+      FunctionName: 'GetStockFunction'
       CodeUri: get_stock/
-      Policies: # follow the principle of least privilege
-        - DynamoDBCrudPolicy: # AWS SAM policy
-            TableName: !Ref MoviesTable
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref StocksTable
         - AWSLambdaBasicExecutionRole
       Events:
-        CreateMovieApi:
+        GetStockApi:
           Type: Api
           Properties:
-            RestApiId: !Ref MoviesApi
-            Path: /movie/{uuid}
+            RestApiId: !Ref StocksApi
+            Path: /stock/{ticker}
             Method: get
-  
-  GetMoviesFunction:
+
+  GetStocksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: 'GetMoviesFunction'
+      FunctionName: 'GetStocksFunction'
       CodeUri: get_stocks/
-      Policies: # follow the principle of least privilege
-        - DynamoDBCrudPolicy: # AWS SAM policy
-            TableName: !Ref MoviesTable
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref StocksTable
         - AWSLambdaBasicExecutionRole
       Events:
-        CreateMovieApi:
+        GetStocksApi:
           Type: Api
           Properties:
-            RestApiId: !Ref MoviesApi
-            Path: /movie/list
+            RestApiId: !Ref StocksApi
+            Path: /stock/list
             Method: get
-  
-  UpdateMovieFunction:
+
+  UpdateStockFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: 'UpdateMovieFunction'
+      FunctionName: 'UpdateStockFunction'
       CodeUri: update_stock/
-      Policies: # follow the principle of least privilege
-        - DynamoDBCrudPolicy: # AWS SAM policy
-            TableName: !Ref MoviesTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref StocksTable
         - AWSLambdaBasicExecutionRole
+      Environment:
+        Variables:
+          ALPHAVANTAGE_API_KEY: !Ref AlphaVantageApiKey
       Events:
-        CreateMovieApi:
+        UpdateStockApi:
           Type: Api
           Properties:
-            RestApiId: !Ref MoviesApi
-            Path: /movie
+            RestApiId: !Ref StocksApi
+            Path: /stock/{ticker}
             Method: put
-  
-  DeleteMovieFunction:
+
+  DeleteStockFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: 'DeleteMovieFunction'
+      FunctionName: 'DeleteStockFunction'
       CodeUri: delete_stock/
-      Policies: # follow the principle of least privilege
-        - DynamoDBCrudPolicy: # AWS SAM policy
-            TableName: !Ref MoviesTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref StocksTable
         - AWSLambdaBasicExecutionRole
       Events:
-        CreateMovieApi:
+        DeleteStockApi:
           Type: Api
           Properties:
-            RestApiId: !Ref MoviesApi
-            Path: /movie/{uuid}
+            RestApiId: !Ref StocksApi
+            Path: /stock/{ticker}
             Method: delete
-        
-  MoviesTable:
+
+  CompareStocksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: 'CompareStocksFunction'
+      CodeUri: compare_stocks/
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref StocksTable
+        - AWSLambdaBasicExecutionRole
+      Events:
+        CompareStocksApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref StocksApi
+            Path: /stock/compare
+            Method: get
+
+  StocksTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: 'movies-table'
+      TableName: 'stocks-table'
       PrimaryKey:
-        Name: uuid
+        Name: ticker
         Type: String
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
+# ======================== PARAMETERS ======================== #
+Parameters:
+  AlphaVantageApiKey:
+    Type: String
+    Description: 'API Key for Alpha Vantage API'
+
+# ======================== OUTPUTS ======================== #
 Outputs:
-  Api:
-    Description: 'API Gateway endpoint URL'
-    Value: !Sub 'https://${MoviesApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/movie'
+  ApiEndpoint:
+    Description: 'API Gateway endpoint URL for Prod stage'
+    Value: !Sub 'https://${StocksApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/stock'
