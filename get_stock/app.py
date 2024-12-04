@@ -28,7 +28,7 @@ def lambda_handler(event, context):
     # Return the stock data
     return {
         'statusCode': 200,
-        'body': json.dumps(response['Item'], indent=2, default=handle_decimal_type)
+        'body': json.dumps(response['Item'], indent=2)
     }
 
 def get_stock_from_db(ticker):
@@ -42,11 +42,3 @@ def get_stock_from_db(ticker):
         print(e.response['Error']['Message'])
         # Consider returning an error response here if needed
         raise e
-
-def handle_decimal_type(obj):
-    if isinstance(obj, decimal.Decimal):
-        if float(obj).is_integer():
-            return int(obj)
-        else:
-            return float(obj)
-    raise TypeError

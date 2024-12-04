@@ -10,7 +10,7 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps(response, indent=2, default=handle_decimal_type)
+        'body': json.dumps(response, indent=2)
     }
 
 
@@ -26,13 +26,3 @@ def get_stocks_from_db():
         return []
     else:
         return response.get('Items', [])
-
-
-# Converter for Decimal objects for JSON serialization
-def handle_decimal_type(obj):
-    if isinstance(obj, decimal.Decimal):
-        if obj % 1 == 0:
-            return int(obj)
-        else:
-            return float(obj)
-    raise TypeError

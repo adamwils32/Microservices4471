@@ -23,6 +23,7 @@ def lambda_handler(event, context):
 
     payload = event['pathParameters']
     ticker = payload.get('ticker')
+    ticket = ticket.upper() if ticket else None
 
     # Check if ticker is provided
     if not ticker:
@@ -62,6 +63,17 @@ def delete_stock_from_db(ticker):
 
     response = table.delete_item(
         Key={'ticker': ticker},
+        ConditionExpression='attribute_exists(ticker)'
+    )
+    return response
+
+def delete_stock_from_db(ticket):
+
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('stocks-table')  # Replace 'stocks-table' with your actual table name
+
+    response = table.delete_item(
+        Key={'ticker': ticket},
         ConditionExpression='attribute_exists(ticker)'
     )
     return response
