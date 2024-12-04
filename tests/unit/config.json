@@ -1,0 +1,18 @@
+{
+  "api_gateway": {
+    "base_url": "https://v3mwv8i7jl.execute-api.us-east-1.amazonaws.com/Prod",
+    "endpoints": {
+      "create_stock": "/stock",
+      "get_stock": "/stock/{ticker}",
+      "update_stock": "/stock/{ticker}",
+      "compare_stocks": "/stock/compare",
+      "get_stocks": "/stock/list",
+      "delete_stock": "/stock/{ticker}"
+    }
+  },
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "x-api-key": "RYXS7QBFIK5870FS"
+  }
+}
