@@ -26,7 +26,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: 'CreateMovieFunction'
-      CodeUri: create_movie/
+      CodeUri: create_stock/
       Policies: # follow the principle of least privilege
         - DynamoDBCrudPolicy: # AWS SAM policy
             TableName: !Ref MoviesTable
@@ -43,7 +43,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: 'GetMovieFunction'
-      CodeUri: get_movie/
+      CodeUri: get_stock/
       Policies: # follow the principle of least privilege
         - DynamoDBCrudPolicy: # AWS SAM policy
             TableName: !Ref MoviesTable
@@ -60,7 +60,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: 'GetMoviesFunction'
-      CodeUri: get_movies/
+      CodeUri: get_stocks/
       Policies: # follow the principle of least privilege
         - DynamoDBCrudPolicy: # AWS SAM policy
             TableName: !Ref MoviesTable
@@ -77,7 +77,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: 'UpdateMovieFunction'
-      CodeUri: update_movie/
+      CodeUri: update_stock/
       Policies: # follow the principle of least privilege
         - DynamoDBCrudPolicy: # AWS SAM policy
             TableName: !Ref MoviesTable
@@ -94,7 +94,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: 'DeleteMovieFunction'
-      CodeUri: delete_movie/
+      CodeUri: delete_stock/
       Policies: # follow the principle of least privilege
         - DynamoDBCrudPolicy: # AWS SAM policy
             TableName: !Ref MoviesTable
