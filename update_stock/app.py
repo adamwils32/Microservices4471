@@ -63,7 +63,7 @@ def get_latest_stock_data(ticker):
         with urllib.request.urlopen(url) as response:
             if response.status != 200:
                 raise Exception(f'HTTP Error {response.status}')
-            data = response.read().decode('utf-8')
+            data = response.read()
     except urllib.error.HTTPError as e:
         raise Exception(f'HTTP Error: {e.code} {e.reason}')
     except urllib.error.URLError as e:
