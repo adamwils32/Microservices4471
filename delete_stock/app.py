@@ -66,14 +66,3 @@ def delete_stock_from_db(ticker):
         ConditionExpression='attribute_exists(ticker)'
     )
     return response
-
-def delete_stock_from_db(ticket):
-
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('stocks-table')  # Replace 'stocks-table' with your actual table name
-
-    response = table.delete_item(
-        Key={'ticker': ticket},
-        ConditionExpression='attribute_exists(ticker)'
-    )
-    return response
