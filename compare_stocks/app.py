@@ -34,17 +34,19 @@ def lambda_handler(event, context):
             'body': json.dumps({'message': 'Error retrieving stock data', 'error': e.response['Error']['Message']})
         }
 
-    # Check if both stocks were found
-    if not stock1 or not stock2:
+    #check if both stocks were found (efficient)
+    if stock1 or stock2:
         not_found_tickers = []
-        if not stock1:
+        if stock1 is None:
             not_found_tickers.append(ticker1)
-        if not stock2:
+        if stock2 is None:
             not_found_tickers.append(ticker2)
         return {
             'statusCode': 404,
             'body': json.dumps({'message': f'Stocks not found: {", ".join(not_found_tickers)}'})
         }
+        print(f"Stock1: {stock1}")
+        print(f"Stock2: {stock2}")
 
     # Compare the stock data
     comparison_result = compare_stocks(stock1, stock2)
@@ -70,7 +72,7 @@ def get_stock_from_db(ticker):
 # Compare two stock data dictionaries
 def compare_stocks(stock1, stock2):
     # Define the fields to compare
-    fields_to_compare = ['price', 'volume', 'change_percent']
+    fields_to_compare = ['price', 'volume', 'change_percent', 'previous_close', 'change', 'open', 'high', 'low', 'close', 'adj close', 'average close price']
 
     comparison = {
         'stock1': {'ticker': stock1['ticker']},
@@ -82,12 +84,13 @@ def compare_stocks(stock1, stock2):
         value1 = stock1.get(field)
         value2 = stock2.get(field)
 
-        if value1 is not None and value2 is not None:
-            # Convert Decimal to float for comparison
-            if isinstance(value1, Decimal):
-                value1 = float(value1)
-            if isinstance(value2, Decimal):
-                value2 = float(value2)
+        if value1 and value2:
+            if value1 is None and value2 is None:
+            # ConvertDecimal to float for comparison
+                if isinstance(value1, Decimal):
+                    value1 = float(value1)
+                if isinstance(value2, Decimal):
+                    value2 = float(value2)
 
             comparison['stock1'][field] = value1
             comparison['stock2'][field] = value2
