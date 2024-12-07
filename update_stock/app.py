@@ -99,6 +99,12 @@ def update_stock_in_db(ticker, stock_data):
         'previous_close': stock_data.get('08. previous close'),
         'change': stock_data.get('09. change'),
         'change_percent': stock_data.get('10. change percent'),
+        'timestamp': stock_data.get('timestamp'),
+        'timezone': stock_data.get('timezone'),
+        'source': 'Alpha Vantage',
+        'updated_at': str(datetime.now()),
+        'created_at': str(datetime.now()),
+        'api_version': '1.0',
         # Add other fields as needed
     }
 
@@ -106,7 +112,7 @@ def update_stock_in_db(ticker, stock_data):
     item = {k: v for k, v in item.items() if v is not None}
 
     # Convert numeric string values to Decimal
-    numeric_fields = ['price', 'volume', 'previous_close', 'change']
+    numeric_fields = ['price', 'volume', 'previous_close', 'change', 'open', 'high', 'low', 'close', 'adj close', 'volume', 'average close price']
     for key in numeric_fields:
         if key in item and item[key]:
             # Convert string to Decimal
