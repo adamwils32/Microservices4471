@@ -9,7 +9,7 @@ def discover_services(namespace_id, service_names=None):
 
     :param namespace_id: The ID of the namespace to search within.
     :param service_names: Optional list of service names to filter.
-    :return: List of discovered services with their attributes.
+    :return: Dictionary mapping service names to their attributes.
     """
     client = boto3.client('servicediscovery', region_name='us-east-1')
 
@@ -20,20 +20,21 @@ def discover_services(namespace_id, service_names=None):
         )
         services = services_response.get('Services', [])
 
-
         if service_names:
             # Filter services by the provided service names
             services = [s for s in services if s['Name'] in service_names]
 
         if not services:
             print(f"No services found in namespace '{namespace_id}' with the specified criteria.")
-            return []
+            return {}
 
         print(f"Discovered {len(services)} service(s) in namespace '{namespace_id}'.")
+        service_dict = {}
         for service in services:
             print(f" - Service Name: {service['Name']}, Service ID: {service['Id']}")
+            service_dict[service['Name']] = service
 
-        return services
+        return service_dict
 
     except Exception as e:
         print(f"Error discovering services: {e}")
@@ -97,7 +98,7 @@ def main():
     api_gateway_base_url = "https://1aelrvkum9.execute-api.us-east-1.amazonaws.com/Prod"  # Replace with your actual API Gateway base URL
 
     # Define the services you want to discover and invoke
-    services_to_invoke = ["Get-Stock", "Update-Stock", "Get-Stocks"]
+    services_to_invoke = ["Get-Stock", "Update-Stock", "Get-Stocks", "Compare-Stocks", "Delete-Stock"]
 
     # Mapping from service names to API Gateway paths and HTTP methods
     service_api_mapping = {
@@ -132,10 +133,16 @@ def main():
     # Step 1: Discover services via Service Discovery
     services = discover_services(namespace_id, service_names=services_to_invoke)
 
+
     # Step 2: Invoke each service via API Gateway
-    for service in services:
-        service_name = service['Name']
-        if service_name not in service_api_mapping:
+    for service_name in services_to_invoke:
+        service = services[service_name]
+
+        if not service:
+            print(f"Service '{service_name}' was not discovered. Skipping invocation.")
+            continue
+
+        if service not in service_api_mapping:
             print(f"Service '{service_name}' is not mapped to an API Gateway endpoint. Skipping.")
             continue
 
@@ -150,12 +157,16 @@ def main():
                 ticker = "AAPL"
             elif service_name == "Update-Stock":
                 ticker = "TSLA"
+            elif service_name == "Delete-Stock":
+                ticker = "TSLA"
             else:
                 ticker = "UNKNOWN"
 
             path = path_template.replace("{ticker}", ticker)
         else:
             path = path_template
+
+        query_params = {}
 
         # Prepare payload based on service and HTTP method
         if service_name == "Get-Stock" and http_method == "GET":
@@ -167,7 +178,7 @@ def main():
             }
         elif service_name == "Get-Stocks" and http_method == "GET":
             payload = None
-        elif service_name == "Compare-Stocks":
+        elif service_name == "Compare-Stocks" and http_method == "GET":
             query_params = {
                 'ticker1': 'AAPL',
                 'ticker2': 'TSLA'
