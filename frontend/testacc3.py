@@ -142,7 +142,7 @@ def main():
             print(f"Service '{service_name}' was not discovered. Skipping invocation.")
             continue
 
-        if service not in service_api_mapping:
+        if service_name not in service_api_mapping:
             print(f"Service '{service_name}' is not mapped to an API Gateway endpoint. Skipping.")
             continue
 
