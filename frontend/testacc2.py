@@ -105,7 +105,7 @@ if __name__ == "__main__":
             api_endpoint=api_gateway_base_url,
             http_method='GET',  # Change to POST if required
             path='/stock/compare',
-            payload={
+            query_params={
                 'ticker1': 'AAPL',
                 'ticker2': 'TSLA'
             },
