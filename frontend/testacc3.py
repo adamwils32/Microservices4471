@@ -111,7 +111,20 @@ def main():
         "Get-Stocks": {
             "http_method": "GET",
             "path_template": "/stock/list"
+        },
+        "Delete-Stock": {
+            "http_method": "DELETE",
+            "path_template": "/stock/{ticker}"
+        },
+        "Compare-Stocks": {
+            "http_method": "GET",
+            "path_template": "/stock/compare"
+        },
+        "Create-Stock": {
+            "http_method": "POST",
+            "path_template": "/stock"
         }
+
         # Add more mappings as needed
     }
 
