@@ -11,7 +11,7 @@ def discover_services(namespace_id, service_names=None):
     :param service_names: Optional list of service names to filter.
     :return: List of discovered services with their attributes.
     """
-    client = boto3.client('servicediscovery')
+    client = boto3.client('servicediscovery', region_name='us-east-1')
 
     try:
         # List all services in the namespace
@@ -19,6 +19,7 @@ def discover_services(namespace_id, service_names=None):
             Filters=[{'Name': 'NAMESPACE_ID', 'Values': [namespace_id]}]
         )
         services = services_response.get('Services', [])
+
 
         if service_names:
             # Filter services by the provided service names
@@ -166,6 +167,11 @@ def main():
             }
         elif service_name == "Get-Stocks" and http_method == "GET":
             payload = None
+        elif service_name == "Compare-Stocks":
+            query_params = {
+                'ticker1': 'AAPL',
+                'ticker2': 'TSLA'
+            }
         else:
             payload = {
                 # Define payload based on service requirements
@@ -184,6 +190,7 @@ def main():
                 api_endpoint=api_gateway_base_url,
                 http_method=http_method,
                 path=path,
+                query_params=query_params,
                 payload=payload,
                 headers=headers
             )
