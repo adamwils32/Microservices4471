@@ -99,3 +99,21 @@ if __name__ == "__main__":
         print("Get Stocks API Response:", result_update)
     except Exception as e:
         print(f"Error invoking Stock Update API Gateway: {e}")
+
+    try:
+        compare_stocks_response = invoke_lambda_via_api_gateway(
+            api_endpoint=api_gateway_base_url,
+            http_method='GET',  # Change to POST if required
+            path='/stock/compare',
+            payload={
+                'ticker1': 'AAPL',
+                'ticker2': 'TSLA'
+            },
+            headers={
+                'Content-Type': 'application/json'
+                # Add other headers like API keys if required
+            }
+        )
+        print("Get Stocks API Response:", compare_stocks_response)
+    except Exception as e:
+        print(f"Error invoking Compare Stock API Gateway: {e}")

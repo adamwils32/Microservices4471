@@ -96,7 +96,7 @@ def main():
     api_gateway_base_url = "https://1aelrvkum9.execute-api.us-east-1.amazonaws.com/Prod"  # Replace with your actual API Gateway base URL
 
     # Define the services you want to discover and invoke
-    services_to_invoke = ["Get-Stock", "Update-Stock", "Get-Stocks"]
+    services_to_invoke = ["Get-Stock", "Update-Service", "Get-Stocks"]
 
     # Mapping from service names to API Gateway paths and HTTP methods
     service_api_mapping = {
@@ -104,7 +104,7 @@ def main():
             "http_method": "GET",
             "path_template": "/stock/{ticker}"
         },
-        "Update-Stock": {
+        "Update-Service": {
             "http_method": "PUT",
             "path_template": "/stock/{ticker}"
         },
@@ -134,7 +134,7 @@ def main():
             # Example: Provide the ticker symbol based on service
             if service_name == "Get-Stock":
                 ticker = "AAPL"
-            elif service_name == "Update-Stock":
+            elif service_name == "Update-Service":
                 ticker = "TSLA"
             else:
                 ticker = "UNKNOWN"
