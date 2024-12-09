@@ -1,39 +1,22 @@
-import boto3
-import json
+import requests
 
-def invoke_function_in_namespace(namespace_id, service_name, payload):
-    client = boto3.client('servicediscovery')
-    lambda_client = boto3.client('lambda')
+def get_stock_via_api_gateway(api_endpoint, ticker, headers=None):
+    try:
+        # Construct the URL with the ticker as a path parameter
+        url = f"{api_endpoint}/{ticker}"
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raises HTTPError for bad responses (4xx or 5xx)
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"HTTP Request failed: {e}")
+        raise
 
-    # Step 1: Discover services
-    services = client.list_services(
-        Filters=[{'Name': 'NAMESPACE_ID', 'Values': [namespace_id]}]
-    )['Services']
-    service = next((s for s in services if s['Name'] == service_name), None)
+# Example Usage
+api_gateway_base_url = "https://1aelrvkum9.execute-api.us-east-1.amazonaws.com/Prod/stock"  # Replace with actual endpoint
+ticker_symbol = "AAPL"
 
-    if not service:
-        raise ValueError(f"Service {service_name} not found in namespace {namespace_id}")
-
-    # Step 2: Discover instances
-    instances = client.list_instances(ServiceId=service['Id'])['Instances']
-    for instance in instances:
-        function_arn = instance['Attributes'].get('lambdaARN')
-        if function_arn:
-            # Step 3: Invoke the Lambda function
-            response = lambda_client.invoke(
-                FunctionName=function_arn,
-                InvocationType='RequestResponse',
-                Payload=payload
-            )
-            print(response['Payload'].read().decode())
-            return
-    raise ValueError(f"No Lambda function found for service {service_name}")
-
-# Testing Specific Lambda Function (Get-Stock) Change Later
-invoke_function_in_namespace("ns-ccodzupqwu4kvz3d", "Get-Stock", json.dumps({
-    "httpMethod": "GET",
-    "pathParameters": {
-        "ticker": "AAPL"
-    }
-}
-))
+try:
+    result = get_stock_via_api_gateway(api_gateway_base_url, ticker_symbol)
+    print("API Gateway Response:", result)
+except Exception as e:
+    print(f"Error invoking API Gateway: {e}")
