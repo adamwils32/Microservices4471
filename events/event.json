@@ -1,62 +1,276 @@
 {
-  "body": "{\"message\": \"hello world\"}",
-  "resource": "/hello",
-  "path": "/hello",
-  "httpMethod": "GET",
-  "isBase64Encoded": false,
-  "queryStringParameters": {
-    "foo": "bar"
-  },
-  "pathParameters": {
-    "proxy": "/path/to/resource"
-  },
-  "stageVariables": {
-    "baz": "qux"
-  },
-  "headers": {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-    "Accept-Encoding": "gzip, deflate, sdch",
-    "Accept-Language": "en-US,en;q=0.8",
-    "Cache-Control": "max-age=0",
-    "CloudFront-Forwarded-Proto": "https",
-    "CloudFront-Is-Desktop-Viewer": "true",
-    "CloudFront-Is-Mobile-Viewer": "false",
-    "CloudFront-Is-SmartTV-Viewer": "false",
-    "CloudFront-Is-Tablet-Viewer": "false",
-    "CloudFront-Viewer-Country": "US",
-    "Host": "1234567890.execute-api.us-east-1.amazonaws.com",
-    "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Custom User Agent String",
-    "Via": "1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
-    "X-Amz-Cf-Id": "cDehVQoZnx43VYQb9j2-nvCh-9z396Uhbp027Y2JvkCPNLmGJHqlaA==",
-    "X-Forwarded-For": "127.0.0.1, 127.0.0.2",
-    "X-Forwarded-Port": "443",
-    "X-Forwarded-Proto": "https"
-  },
-  "requestContext": {
-    "accountId": "123456789012",
-    "resourceId": "123456",
-    "stage": "prod",
-    "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
-    "requestTime": "09/Apr/2015:12:34:56 +0000",
-    "requestTimeEpoch": 1428582896000,
-    "identity": {
-      "cognitoIdentityPoolId": null,
-      "accountId": null,
-      "cognitoIdentityId": null,
-      "caller": null,
-      "accessKey": null,
-      "sourceIp": "127.0.0.1",
-      "cognitoAuthenticationType": null,
-      "cognitoAuthenticationProvider": null,
-      "userArn": null,
-      "userAgent": "Custom User Agent String",
-      "user": null
+  "UpdateStockApi": [
+    {
+      "resource": "/stock/{ticker}",
+      "path": "/stock/AAPL",
+      "httpMethod": "PUT",
+      "headers": {
+        "Accept": "application/json"
+      },
+      "multiValueHeaders": {
+        "Accept": [
+          "application/json"
+        ]
+      },
+      "queryStringParameters": null,
+      "multiValueQueryStringParameters": null,
+      "pathParameters": {
+        "ticker": "AAPL"
+      },
+      "stageVariables": null,
+      "requestContext": {
+        "resourceId": "xyz",
+        "resourcePath": "/stock/{ticker}",
+        "httpMethod": "PUT",
+        "extendedRequestId": "abc123",
+        "requestTime": "01/Jan/2024:12:34:56 +0000",
+        "path": "/Prod/stock/AAPL",
+        "accountId": "123456789012",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "your-api-id",
+        "requestTimeEpoch": 1706800496000,
+        "requestId": "abcd-1234-efgh-5678",
+        "identity": {
+          "sourceIp": "1.2.3.4",
+          "userAgent": "PostmanRuntime/7.28.4"
+        },
+        "domainName": "your-api-id.execute-api.us-east-1.amazonaws.com",
+        "apiId": "your-api-id"
+      },
+      "body": null,
+      "isBase64Encoded": false
     },
-    "path": "/prod/hello",
-    "resourcePath": "/hello",
-    "httpMethod": "POST",
-    "apiId": "1234567890",
-    "protocol": "HTTP/1.1"
+    {
+      "resource": "/stock/{ticker}",
+      "path": "/stock/TSLA",
+      "httpMethod": "PUT",
+      "headers": {
+        "Accept": "application/json"
+      },
+      "multiValueHeaders": {
+        "Accept": [
+          "application/json"
+        ]
+      },
+      "queryStringParameters": null,
+      "multiValueQueryStringParameters": null,
+      "pathParameters": {
+        "ticker": "TSLA"
+      },
+      "stageVariables": null,
+      "requestContext": {
+        "resourceId": "xyz",
+        "resourcePath": "/stock/{ticker}",
+        "httpMethod": "PUT",
+        "extendedRequestId": "abc123",
+        "requestTime": "01/Jan/2024:12:34:56 +0000",
+        "path": "/Prod/stock/TSLA",
+        "accountId": "123456789012",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "your-api-id",
+        "requestTimeEpoch": 1706800496000,
+        "requestId": "abcd-1234-efgh-5678",
+        "identity": {
+          "sourceIp": "1.2.3.4",
+          "userAgent": "PostmanRuntime/7.28.4"
+        },
+        "domainName": "your-api-id.execute-api.us-east-1.amazonaws.com",
+        "apiId": "your-api-id"
+      },
+      "body": null,
+      "isBase64Encoded": false
+    }
+  ],
+  "GetStocksApi": [
+    {
+      "resource": "/stock/list",
+      "path": "/stock/list",
+      "httpMethod": "GET",
+      "headers": {
+        "Accept": "application/json"
+      },
+      "multiValueHeaders": {
+        "Accept": [
+          "application/json"
+        ]
+      },
+      "queryStringParameters": null,
+      "multiValueQueryStringParameters": null,
+      "pathParameters": null,
+      "stageVariables": null,
+      "requestContext": {
+        "resourceId": "xyz",
+        "resourcePath": "/stock/list",
+        "httpMethod": "GET",
+        "extendedRequestId": "abc123",
+        "requestTime": "01/Jan/2024:12:34:56 +0000",
+        "path": "/Prod/stock/list",
+        "accountId": "123456789012",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "your-api-id",
+        "requestTimeEpoch": 1706800496000,
+        "requestId": "abcd-1234-efgh-5678",
+        "identity": {
+          "sourceIp": "1.2.3.4",
+          "userAgent": "PostmanRuntime/7.28.4"
+        },
+        "domainName": "your-api-id.execute-api.us-east-1.amazonaws.com",
+        "apiId": "your-api-id"
+      },
+      "body": null,
+      "isBase64Encoded": false
+    }
+  ],
+  "GetStockApi": [
+    {
+      "resource": "/stock/{ticker}",
+      "path": "/stock/TSLA",
+      "httpMethod": "GET",
+      "headers": {
+        "Accept": "application/json"
+      },
+      "multiValueHeaders": {
+        "Accept": [
+          "application/json"
+        ]
+      },
+      "queryStringParameters": null,
+      "multiValueQueryStringParameters": null,
+      "pathParameters": {
+        "ticker": "TSLA"
+      },
+      "stageVariables": null,
+      "requestContext": {
+        "resourceId": "xyz",
+        "resourcePath": "/stock/{ticker}",
+        "httpMethod": "GET",
+        "extendedRequestId": "abc123",
+        "requestTime": "01/Jan/2024:12:34:56 +0000",
+        "path": "/Prod/stock/TSLA",
+        "accountId": "123456789012",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "your-api-id",
+        "requestTimeEpoch": 1706800496000,
+        "requestId": "abcd-1234-efgh-5678",
+        "identity": {
+          "sourceIp": "1.2.3.4",
+          "userAgent": "PostmanRuntime/7.28.4"
+        },
+        "domainName": "your-api-id.execute-api.us-east-1.amazonaws.com",
+        "apiId": "your-api-id"
+      },
+      "body": null,
+      "isBase64Encoded": false
+    }
+  ],
+  "CreateStockApi": [
+    {
+      "httpMethod": "POST",
+      "body": "{\"ticker\": \"TSLA\", \"company_name\": \"Tesla Inc.\", \"exchange\": \"NASDAQ\", \"sector\": \"Technology\"}"
+    }
+  ],
+  "CompareStocksApi": [
+    {
+      "resource": "/stock/compare",
+      "path": "/stock/compare",
+      "httpMethod": "GET",
+      "headers": {
+        "Accept": "application/json"
+      },
+      "multiValueHeaders": {
+        "Accept": [
+          "application/json"
+        ]
+      },
+      "queryStringParameters": {
+        "ticker1": "AAPL",
+        "ticker2": "TSLA"
+      },
+      "multiValueQueryStringParameters": {
+        "ticker1": [
+          "AAPL"
+        ],
+        "ticker2": [
+          "TSLA"
+        ]
+      },
+      "pathParameters": null,
+      "stageVariables": null,
+      "requestContext": {
+        "resourceId": "xyz",
+        "resourcePath": "/stock/compare",
+        "httpMethod": "GET",
+        "extendedRequestId": "abc123",
+        "requestTime": "01/Jan/2024:12:34:56 +0000",
+        "path": "/Prod/stock/compare",
+        "accountId": "123456789012",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "your-api-id",
+        "requestTimeEpoch": 1706800496000,
+        "requestId": "abcd-1234-efgh-5678",
+        "identity": {
+          "sourceIp": "1.2.3.4",
+          "userAgent": "PostmanRuntime/7.28.4"
+        },
+        "domainName": "your-api-id.execute-api.us-east-1.amazonaws.com",
+        "apiId": "your-api-id"
+      },
+      "body": null,
+      "isBase64Encoded": false
+    }
+  ],
+  "DeleteStockApi": [
+    {
+      "resource": "/stock/{ticker}",
+      "path": "/stock/TSLA",
+      "httpMethod": "DELETE",
+      "headers": {
+        "Accept": "application/json"
+      },
+      "multiValueHeaders": {
+        "Accept": [
+          "application/json"
+        ]
+      },
+      "queryStringParameters": null,
+      "multiValueQueryStringParameters": null,
+      "pathParameters": {
+        "ticker": "TSLA"
+      },
+      "stageVariables": null,
+      "requestContext": {
+        "resourceId": "xyz",
+        "resourcePath": "/stock/{ticker}",
+        "httpMethod": "DELETE",
+        "extendedRequestId": "abc123",
+        "requestTime": "01/Jan/2024:12:34:56 +0000",
+        "path": "/Prod/stock/TSLA",
+        "accountId": "123456789012",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "your-api-id",
+        "requestTimeEpoch": 1706800496000,
+        "requestId": "abcd-1234-efgh-5678",
+        "identity": {
+          "sourceIp": "1.2.3.4",
+          "userAgent": "PostmanRuntime/7.28.4"
+        },
+        "domainName": "your-api-id.execute-api.us-east-1.amazonaws.com",
+        "apiId": "your-api-id"
+      },
+      "body": null,
+      "isBase64Encoded": false
+    }
+  ],
+  "DiscoverServicesApi": {
+    "path": "/discover-services",
+    "queryStringParameters": {
+      "namespaceId": "ns-ccodzupqwu4kvz3d"
+    }
   }
 }
