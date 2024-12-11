@@ -126,6 +126,24 @@ Resources:
             Path: /stock/compare
             Method: get
 
+  DiscoverServicesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: 'DiscoverServicesFunction'
+      CodeUri: discover_services/  # Path to your Lambda function code
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Environment:
+        Variables:
+          NAMESPACE_ID: !Ref NamespaceId  # If needed, add the NamespaceId or other environment variables
+      Events:
+        DiscoverServicesApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref StocksApi
+            Path: /discover-services
+            Method: get
+
   StocksTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -142,6 +160,10 @@ Parameters:
   AlphaVantageApiKey:
     Type: String
     Description: 'API Key for Alpha Vantage API'
+  NamespaceId:
+    Type: String
+    Description: 'Namespace ID for service discovery'
+    Default: "ns-ccodzupqwu4kvz3d"
 
 # ======================== OUTPUTS ======================== #
 Outputs:

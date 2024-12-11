@@ -95,7 +95,7 @@ def invoke_lambda_via_api_gateway(api_endpoint, http_method='GET', path='', quer
 def main():
     # Configuration
     namespace_id = "ns-ccodzupqwu4kvz3d"  # Replace with your actual namespace ID
-    api_gateway_base_url = "https://1aelrvkum9.execute-api.us-east-1.amazonaws.com/Prod"  # Replace with your actual API Gateway base URL
+    api_gateway_base_url = "https://1aelrvkum9.execute-api.us-east-1.amazonaws.com/Prod/stock"  # Replace with your actual API Gateway base URL
 
     # Define the services you want to discover and invoke
     services_to_invoke = ["Get-Stock", "Update-Stock", "Get-Stocks", "Compare-Stocks", "Delete-Stock"]
@@ -104,27 +104,27 @@ def main():
     service_api_mapping = {
         "Get-Stock": {
             "http_method": "GET",
-            "path_template": "/stock/{ticker}"
+            "path_template": "/{ticker}"
         },
         "Update-Stock": {
             "http_method": "PUT",
-            "path_template": "/stock/{ticker}"
+            "path_template": "/{ticker}"
         },
         "Get-Stocks": {
             "http_method": "GET",
-            "path_template": "/stock/list"
+            "path_template": "/list"
         },
         "Delete-Stock": {
             "http_method": "DELETE",
-            "path_template": "/stock/{ticker}"
+            "path_template": "/{ticker}"
         },
         "Compare-Stocks": {
             "http_method": "GET",
-            "path_template": "/stock/compare"
+            "path_template": "/compare"
         },
         "Create-Stock": {
             "http_method": "POST",
-            "path_template": "/stock"
+            "path_template": ""
         }
 
         # Add more mappings as needed
